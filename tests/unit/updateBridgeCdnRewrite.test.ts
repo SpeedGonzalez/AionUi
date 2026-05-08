@@ -164,6 +164,29 @@ describe('updateBridge CDN URL rewriting', () => {
       vi.unstubAllGlobals();
     }
   });
+
+  it('checks fork releases by default when no repo is supplied', async () => {
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => makeGitHubReleaseResponse(),
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    try {
+      const handler = await getCheckHandler();
+      await handler({});
+
+      expect(fetchMock).toHaveBeenCalledWith('https://api.github.com/repos/SpeedGonzalez/AionUi/releases', {
+        headers: {
+          Accept: 'application/vnd.github+json',
+          'User-Agent': 'AionUi',
+        },
+        signal: expect.any(AbortSignal),
+      });
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
 });
 
 describe('updateBridge allowlist includes CDN host', () => {

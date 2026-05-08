@@ -224,7 +224,7 @@ electronDownload:
 
 publish:
   provider: github
-  owner: iOfficeAI
+  owner: SpeedGonzalez
   repo: AionUi
   publishAutoUpdate: true
   releaseType: release
